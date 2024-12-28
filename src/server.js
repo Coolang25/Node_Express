@@ -3,6 +3,7 @@ const express = require('express') // commonjs
 const path = require('path')
 const configViewEngine = require('./config/viewEngine')
 const webRoutes = require('./routes/web')
+const connection = require('./config/db')
 
 const app = express()
 const port = process.env.PORT || 8080
