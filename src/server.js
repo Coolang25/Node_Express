@@ -9,6 +9,9 @@ const app = express()
 const port = process.env.PORT || 8080
 const hostname = process.env.HOST_NAME
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 // config view engine
 configViewEngine(app)
 
