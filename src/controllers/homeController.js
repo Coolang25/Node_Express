@@ -2,10 +2,10 @@ const connection = require('../config/db')
 const { get } = require('../routes/web')
 const { getAllUsers, getUserById, updateUserById, deleteUserById } = require('../services/CRUDService')
 
-const users = []
+const User = require('../models/user')
 
 const getHomePage = async (req, res) => {
-    let results = await getAllUsers()
+    let results = await User.find({})
     return res.render('home', { listUsers: results })
 }
 
@@ -15,7 +15,7 @@ const getCreatePage = (req, res) => {
 
 const getUpdatePage = async (req, res) => {
     const userId = req.params.id;
-    let user = await getUserById(userId)
+    let user = await User.findById(userId).exec()
 
     return res.render('edit', { userEdit: user })
 }
@@ -23,10 +23,7 @@ const getUpdatePage = async (req, res) => {
 const postCreateUser = async (req, res) => {
     let { email, name, city } = req.body
 
-    let [results, fields] = await connection.query(
-        `INSERT INTO Users (email, name, city) VALUES ( ?, ?, ?)`,
-        [email, name, city]
-    )
+    await User.create({ email, name, city })
 
     res.redirect('/')
 }
@@ -34,20 +31,20 @@ const postCreateUser = async (req, res) => {
 const postUpdateUser = async (req, res) => {
     let { email, name, city, id } = req.body
 
-    await updateUserById(id, email, name, city)
+    await User.updateOne({ _id: id }, { email, name, city }).exec()
 
     res.redirect('/')
 }
 
 const postDeleteUser = async (req, res) => {
     const userId = req.params.id;
-    let user = await getUserById(userId)
+    let user = await User.findById(userId).exec()
     res.render('delete', { userEdit: user })
 }
 
 const postHandleRemoveUser = async (req, res) => {
     const userId = req.body.id;
-    await deleteUserById(userId)
+    await User.deleteOne({ _id: userId }).exec()
 
     res.redirect('/')
 }
