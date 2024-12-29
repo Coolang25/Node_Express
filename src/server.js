@@ -15,8 +15,15 @@ app.use(express.urlencoded({ extended: true }))
 // config view engine
 configViewEngine(app)
 
-app.use('/', webRoutes)
+app.use('/', webRoutes);
 
-app.listen(port, hostname, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+(async () => {
+    try {
+        await connection()
+        app.listen(port, hostname, () => {
+            console.log(`Example app listening on port ${port}`)
+        })
+    } catch (error) {
+        console.log("error", error)
+    }
+})()
