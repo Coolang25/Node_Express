@@ -4,6 +4,7 @@ const path = require('path')
 const configViewEngine = require('./config/viewEngine')
 const webRoutes = require('./routes/web')
 const connection = require('./config/db')
+const Kitten = require('./models/Kitten')
 
 const app = express()
 const port = process.env.PORT || 8080
@@ -16,6 +17,9 @@ app.use(express.urlencoded({ extended: true }))
 configViewEngine(app)
 
 app.use('/', webRoutes);
+
+const cat = new Kitten({ name: 'Zildjian' });
+cat.save();
 
 (async () => {
     try {
