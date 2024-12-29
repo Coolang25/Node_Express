@@ -3,6 +3,7 @@ const express = require('express') // commonjs
 const path = require('path')
 const configViewEngine = require('./config/viewEngine')
 const webRoutes = require('./routes/web')
+const apiRoutes = require('./routes/api')
 const connection = require('./config/db')
 
 const app = express()
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }))
 configViewEngine(app)
 
 app.use('/', webRoutes);
+app.use('/v1/api/', apiRoutes);
 
 (async () => {
     try {
