@@ -48,13 +48,30 @@
                 <th>Email</th>
                 <th>Name</th>
                 <th>City</th>
+                <th>Actions</th>
             </tr>
-            <tr>
-                <td>Jill</td>
-                <td>Smith</td>
-                <td>50</td>
-                <td>50</td>
-            </tr>
+            <% listUsers.forEach((user)=> { %>
+                <tr>
+                    <td>
+                        <%= user.id %>
+                    </td>
+                    <td>
+                        <%= user.email %>
+                    </td>
+                    <td>
+                        <%= user.name %>
+                    </td>
+                    <td>
+                        <%= user.city %>
+                    </td>
+                    <td>
+                        <a href="/update/<%= user.id %>">Edit</a>
+                        <form action="/delete-user/<%= user.id %>" method="post">
+                            <button>Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
         </table>
     </div>
 </body>
